@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 api.interceptors.response.use(
@@ -17,5 +17,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
-
