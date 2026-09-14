@@ -40,7 +40,7 @@ Administrators can:
 
 ## 🌐 Live Demo
 
-**Frontend:** https://bank-frontend-beta.vercel.app
+**Frontend:** [https://bank-frontend-beta.vercel.app](https://bank-frontend-qktsz16d9-dms-vikass-projects.vercel.app/)
 
 ## 🎯 Project Goal
 
