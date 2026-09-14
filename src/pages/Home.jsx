@@ -6,6 +6,7 @@ export default function Home() {
   return (
     <div className="home-wrap">
 
+      {/* ================= NAVBAR ================= */}
       <nav className="landing-nav">
         <div className="brand">
           <span className="brand-icon">🏦</span>
@@ -13,23 +14,43 @@ export default function Home() {
         </div>
 
         <div className="nav-links">
-          <Link className="active" to="/">Home</Link>
-          <Link to="/dashboard">Customer</Link>
-          <Link to="/admin">Admin</Link>
-          <a href="#about">About</a>
+          <Link className="active" to="/">
+            Home
+          </Link>
+
+          <Link to="/dashboard">
+            Customer
+          </Link>
+
+          <Link to="/admin">
+            Admin
+          </Link>
+
+          <a href="#about">
+            About
+          </a>
         </div>
 
         <div className="nav-actions">
-          <button className="theme-btn">☾</button>
-          <Link className="login-btn" to="/login">Login</Link>
+          <button className="theme-btn" type="button">
+            ☾
+          </button>
+
+          <Link className="login-btn" to="/login">
+            Login
+          </Link>
+
           <Link className="signup-btn" to="/register">
             Create account
           </Link>
         </div>
       </nav>
 
+
+      {/* ================= HERO ================= */}
       <main className="landing-hero">
 
+        {/* -------- LEFT SIDE -------- */}
         <section className="hero-copy">
 
           <div className="secure-pill">
@@ -58,26 +79,39 @@ export default function Home() {
             </Link>
           </div>
 
+
+          {/* -------- FEATURES -------- */}
           <div className="feature-row">
 
             <div className="mini-feature">
-              <div className="mini-icon">↗</div>
+              <div className="mini-icon">
+                ↗
+              </div>
+
               <div>
                 <strong>Instant Transfers</strong>
                 <small>Send money in seconds</small>
               </div>
             </div>
 
+
             <div className="mini-feature">
-              <div className="mini-icon green">◩</div>
+              <div className="mini-icon green">
+                ◩
+              </div>
+
               <div>
                 <strong>Smart Insights</strong>
                 <small>Track and grow savings</small>
               </div>
             </div>
 
+
             <div className="mini-feature">
-              <div className="mini-icon pink">♢</div>
+              <div className="mini-icon pink">
+                ♢
+              </div>
+
               <div>
                 <strong>Bank-Grade Security</strong>
                 <small>Your data, always safe</small>
@@ -86,7 +120,10 @@ export default function Home() {
 
           </div>
 
+
+          {/* -------- STATS -------- */}
           <div className="stats-row">
+
             <div>
               <strong>10K+</strong>
               <span>Happy Customers</span>
@@ -101,121 +138,70 @@ export default function Home() {
               <strong>24×7</strong>
               <span>Customer Support</span>
             </div>
+
           </div>
 
         </section>
 
+
+        {/* =================================================
+             RIGHT SIDE
+             ONLY THE IMAGE
+             
+             IMPORTANT:
+             This is NOT a CSS background image.
+             It is a normal <img> element.
+             ================================================= */}
         <section className="hero-visual">
 
-          <div className="blue-circle"></div>
-
-          <div className="goal-card floating-card">
-            🎯
-            <div>
-              <strong>₹2,15,000</strong>
-              <span>Savings Goal</span>
-            </div>
-          </div>
-
-          <div className="safe-card floating-card">
-            🔒
-            <div>
-              <strong>Safe</strong>
-              <span>Transactions</span>
-            </div>
-          </div>
-
-          <div className="phone">
-            <div className="phone-top">
-              <strong>🏦 G-BANK</strong>
-              <span>🔔</span>
-              <b>LI</b>
-            </div>
-
-            <p className="welcome">
-              Welcome back,<br />
-              <strong>LIKITH 👋</strong>
-            </p>
-
-            <div className="balance-card">
-              <small>Available Balance</small>
-              <strong>₹3,800</strong>
-              <span>A/C • 45069587</span>
-              <b>VISA</b>
-            </div>
-
-            <div className="quick-buttons">
-              <span>↓<small>Deposit</small></span>
-              <span>↑<small>Withdraw</small></span>
-              <span>⇄<small>Transfer</small></span>
-              <span>•••<small>More</small></span>
-            </div>
-
-            <div className="transactions">
-              <div className="transaction-title">
-                <strong>Recent Transactions</strong>
-                <span>View all</span>
-              </div>
-
-              <div className="transaction">
-                <i>↓</i>
-                <div>
-                  <strong>Deposit</strong>
-                  <small>14 Sep 2026</small>
-                </div>
-                <b>+ ₹2,000</b>
-              </div>
-
-              <div className="transaction">
-                <i>⇄</i>
-                <div>
-                  <strong>Transfer</strong>
-                  <small>14 Sep 2026</small>
-                </div>
-                <b>+ ₹300</b>
-              </div>
-
-              <div className="transaction">
-                <i>↑</i>
-                <div>
-                  <strong>Withdraw</strong>
-                  <small>14 Sep 2026</small>
-                </div>
-                <b className="negative">- ₹200</b>
-              </div>
-            </div>
-
-            <div className="phone-bottom">
-              <span>⌂<small>Home</small></span>
-              <span>▣<small>Bills</small></span>
-              <span>♡<small>Goals</small></span>
-              <span>♙<small>Profile</small></span>
-            </div>
-          </div>
-
-          <div className="bank-card">
-            <div>🏦 G-BANK</div>
-            <div className="chip"></div>
-            <strong>4506 •••• •••• 9587</strong>
-            <span>LIKITH</span>
-            <b>VISA</b>
-          </div>
-
-          <div className="goals-card floating-card">
-            📈
-            <div>
-              <strong>Your Goals</strong>
-              <span>Our Support</span>
-            </div>
-          </div>
+          <img
+            src={heroImg}
+            alt="G-BANK banking dashboard"
+            className="hero-image"
+          />
 
         </section>
 
       </main>
 
+
+      {/* ================= ABOUT ================= */}
+      <section id="about" className="about-section">
+
+        <div className="about-content">
+
+          <span className="secure-pill">
+            🏦 About G-BANK
+          </span>
+
+          <h2>
+            Banking made
+            <span> simpler.</span>
+          </h2>
+
+          <p>
+            G-BANK brings everyday banking into one simple platform.
+            Manage accounts, transfer money, track transactions,
+            monitor savings and access your banking tools whenever
+            you need them.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      {/* ================= FOOTER ================= */}
       <footer className="landing-footer">
-        <span>🏦 G-BANK</span>
-        <span>More than a bank. A better tomorrow.</span>
+
+        <span>
+          🏦 G-BANK
+        </span>
+
+        <span>
+          More than a bank. A better tomorrow.
+        </span>
+
       </footer>
 
     </div>
