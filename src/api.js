@@ -1,7 +1,12 @@
 import axios from "axios";
 
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://bank-backend-sx1g.onrender.com"
+    : process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
+
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: API_URL,
 });
 
 api.interceptors.response.use(
