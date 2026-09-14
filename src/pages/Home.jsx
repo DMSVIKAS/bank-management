@@ -8,6 +8,7 @@ export default function Home() {
 
       {/* ================= NAVBAR ================= */}
       <nav className="landing-nav">
+
         <div className="brand">
           <span className="brand-icon">🏦</span>
           <span>G-BANK</span>
@@ -32,6 +33,7 @@ export default function Home() {
         </div>
 
         <div className="nav-actions">
+
           <button className="theme-btn" type="button">
             ☾
           </button>
@@ -43,14 +45,16 @@ export default function Home() {
           <Link className="signup-btn" to="/register">
             Create account
           </Link>
+
         </div>
+
       </nav>
 
 
       {/* ================= HERO ================= */}
       <main className="landing-hero">
 
-        {/* -------- LEFT SIDE -------- */}
+        {/* ================= LEFT SIDE ================= */}
         <section className="hero-copy">
 
           <div className="secure-pill">
@@ -70,6 +74,7 @@ export default function Home() {
           </p>
 
           <div className="hero-buttons">
+
             <Link className="primary-cta" to="/login">
               Get started <span>→</span>
             </Link>
@@ -77,10 +82,11 @@ export default function Home() {
             <Link className="secondary-cta" to="/login">
               Sign in
             </Link>
+
           </div>
 
 
-          {/* -------- FEATURES -------- */}
+          {/* ================= FEATURES ================= */}
           <div className="feature-row">
 
             <div className="mini-feature">
@@ -121,7 +127,7 @@ export default function Home() {
           </div>
 
 
-          {/* -------- STATS -------- */}
+          {/* ================= STATS ================= */}
           <div className="stats-row">
 
             <div>
@@ -144,14 +150,7 @@ export default function Home() {
         </section>
 
 
-        {/* =================================================
-             RIGHT SIDE
-             ONLY THE IMAGE
-             
-             IMPORTANT:
-             This is NOT a CSS background image.
-             It is a normal <img> element.
-             ================================================= */}
+        {/* ================= RIGHT SIDE ================= */}
         <section className="hero-visual">
 
           <img
