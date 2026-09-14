@@ -693,8 +693,8 @@
 .transaction-head,
 .transaction-row {
   display: grid;
-  grid-template-columns: minmax(170px, 1.5fr) minmax(145px, 1fr) 110px 120px;
-  gap: 15px;
+  grid-template-columns: minmax(140px, 1.55fr) minmax(105px, 1fr) minmax(82px, 0.7fr) minmax(90px, 0.8fr);
+  gap: 10px;
   align-items: center;
 }
 
@@ -777,6 +777,9 @@
 
 .amount-positive,
 .amount-negative {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
   font-size: 11px;
   text-align: right;
 }
@@ -790,6 +793,8 @@
 }
 
 .transaction-balance {
+  min-width: 0;
+  white-space: nowrap;
   text-align: right;
   color: #263a58;
   font-weight: 650;
