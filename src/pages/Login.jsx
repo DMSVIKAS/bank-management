@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
-import heroImg from "../components/image2.jpeg";
+import heroImg from "../components/download.jpeg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,7 +9,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState(null);
 
-  // Forgot Password modal state
   const [showForgot, setShowForgot] = useState(false);
   const [fpEmail, setFpEmail] = useState("");
   const [fpAcc, setFpAcc] = useState("");
@@ -45,7 +44,6 @@ export default function Login() {
     }
   };
 
-  // Open Forgot Password modal; prefill email if user already typed it
   const openForgot = () => {
     setFpEmail(email || "");
     setFpAcc("");
@@ -56,8 +54,6 @@ export default function Login() {
 
   const handleForgotPassword = async () => {
     setFpMsg(null);
-
-    // basic validation
     if (!fpEmail || !fpAcc || !fpNewPass) {
       setFpMsg({ type: "error", text: "Please fill all fields." });
       return;
@@ -65,20 +61,25 @@ export default function Login() {
 
     try {
       setFpLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: fpEmail,
-          account_number: fpAcc,
-          new_password: fpNewPass,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/forgot-password`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: fpEmail,
+            account_number: fpAcc,
+            new_password: fpNewPass,
+          }),
+        }
+      );
       const data = await res.json();
 
       if (res.ok && data.status === "success") {
-        setFpMsg({ type: "success", text: "Password reset successful! Please login again." });
-        // close modal after a moment and copy new pass into main field for convenience
+        setFpMsg({
+          type: "success",
+          text: "Password reset successful! Please login again.",
+        });
         setTimeout(() => {
           setShowForgot(false);
           setPassword(fpNewPass);
@@ -95,129 +96,161 @@ export default function Login() {
   };
 
   return (
-    <div className="login-wrap">
-      {/* Left side — image + feature points */}
-      <div
-        className="login-hero"
-        style={{ backgroundImage: `url(${heroImg})` }}
-      >
-        <ul className="hero-points only">
-          <li>✔ 24×7 transfers</li>
-          <li>✔ Loan & EMI tracker</li>
-          <li>✔ Real-time statements</li>
-        </ul>
-      </div>
+    <div className="login-page">
+      <div className="login-shell">
+        <section className="login-showcase">
+          <div className="showcase-top">
+            <div className="login-brand">
+              <span className="brand-mark">🏦</span>
+              <span>G-BANK</span>
+            </div>
+            <span className="showcase-badge">Secure • Smart • Reliable</span>
+          </div>
 
-      {/* Right side — form card */}
-      <div className="login-card">
-        <div className="card-inner">
-          <h2>Sign in</h2>
-          <p className="muted">Use your email and password to continue</p>
+          <div className="showcase-content">
+            <div className="showcase-copy">
+              <p className="eyebrow">WELCOME TO G-BANK</p>
+              <h1>
+                Banking for a
+                <span> Brighter Tomorrow.</span>
+              </h1>
+              <p className="showcase-description">
+                Manage your money, make payments, track your savings and stay
+                in control — all from one simple banking platform.
+              </p>
 
-          <form onSubmit={handleLogin} className="form">
-            <label>
-              Email
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoFocus
-              />
-            </label>
-
-            <label>
-              Password
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </label>
-
-            <div className="form-row">
-              <label className="checkbox">
-                <input type="checkbox" /> Remember me
-              </label>
-
-              {/* Forgot password opens modal */}
-              <button
-                type="button"
-                className="link small link-button"
-                onClick={openForgot}
-                title="Reset your password"
-              >
-                Forgot password?
-              </button>
+              <div className="showcase-features">
+                <div className="showcase-feature">
+                  <span>↗</span>
+                  <div><strong>Instant transfers</strong><small>Send money in seconds</small></div>
+                </div>
+                <div className="showcase-feature">
+                  <span>▥</span>
+                  <div><strong>Smart insights</strong><small>Track and grow your savings</small></div>
+                </div>
+                <div className="showcase-feature">
+                  <span>◇</span>
+                  <div><strong>Bank-grade security</strong><small>Your data stays protected</small></div>
+                </div>
+              </div>
             </div>
 
-            <button className="btn-primary" type="submit" disabled={loading}>
-              {loading ? "Signing in…" : "Sign in"}
-            </button>
-          </form>
-
-          {msg && (
-            <div className={`alert ${msg.type === "error" ? "alert-error" : "alert-success"}`}>
-              {msg.text}
+            <div className="showcase-art">
+              <img src={heroImg} alt="G-BANK banking experience" />
             </div>
-          )}
+          </div>
 
-          <p className="muted center small">
-            New here? <a href="/register" className="link">Create an account</a>
-          </p>
-        </div>
+          <div className="showcase-stats">
+            <div><strong>10K+</strong><span>Happy Customers</span></div>
+            <div><strong>100%</strong><span>Secure Transactions</span></div>
+            <div><strong>24×7</strong><span>Customer Support</span></div>
+          </div>
+        </section>
 
-        <p className="tiny muted center">© {new Date().getFullYear()} Golden Ore Bank. All rights reserved.</p>
-      </div>
+        <section className="login-panel">
+          <div className="login-panel-inner">
+            <div className="mobile-brand">
+              <span className="brand-mark">🏦</span>
+              <span>G-BANK</span>
+            </div>
 
-      {/* 🔥 Forgot Password Modal */}
-      {showForgot && (
-        <div className="modal-overlay" onClick={() => setShowForgot(false)}>
-          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h3>Reset Password</h3>
-            <div className="form" style={{ marginTop: 8 }}>
+            <div className="login-heading">
+              <span className="login-kicker">WELCOME BACK</span>
+              <h2>Sign in to your account</h2>
+              <p>Enter your details to continue securely.</p>
+            </div>
+
+            <form onSubmit={handleLogin} className="login-form">
               <label>
-                Email
+                Email address
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  value={fpEmail}
-                  onChange={(e) => setFpEmail(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoFocus
                 />
+              </label>
+
+              <label>
+                Password
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </label>
+
+              <div className="login-options">
+                <label className="remember-option">
+                  <input type="checkbox" />
+                  <span>Remember me</span>
+                </label>
+                <button type="button" className="forgot-button" onClick={openForgot}>
+                  Forgot password?
+                </button>
+              </div>
+
+              <button className="login-submit" type="submit" disabled={loading}>
+                <span>{loading ? "Signing in…" : "Sign in"}</span>
+                {!loading && <span className="submit-arrow">→</span>}
+              </button>
+            </form>
+
+            {msg && (
+              <div className={`login-alert ${msg.type === "error" ? "login-alert-error" : "login-alert-success"}`}>
+                {msg.text}
+              </div>
+            )}
+
+            <div className="login-divider"><span>Secure G-BANK access</span></div>
+
+            <p className="create-account-text">
+              Don't have an account? <Link to="/register">Create account</Link>
+            </p>
+
+            <p className="login-footer">
+              © {new Date().getFullYear()} Golden Ore Bank · Secure banking for a brighter tomorrow.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {showForgot && (
+        <div className="modal-overlay" onClick={() => setShowForgot(false)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-icon">🔐</div>
+            <h3>Reset your password</h3>
+            <p className="modal-description">Verify your account details and choose a new password.</p>
+
+            <div className="modal-form">
+              <label>
+                Email
+                <input type="email" placeholder="you@example.com" value={fpEmail} onChange={(e) => setFpEmail(e.target.value)} />
               </label>
               <label>
                 Account Number
-                <input
-                  type="text"
-                  placeholder="8-digit account number"
-                  value={fpAcc}
-                  onChange={(e) => setFpAcc(e.target.value)}
-                />
+                <input type="text" placeholder="8-digit account number" value={fpAcc} onChange={(e) => setFpAcc(e.target.value)} />
               </label>
               <label>
                 New Password
-                <input
-                  type="password"
-                  placeholder="Enter new password"
-                  value={fpNewPass}
-                  onChange={(e) => setFpNewPass(e.target.value)}
-                />
+                <input type="password" placeholder="Enter new password" value={fpNewPass} onChange={(e) => setFpNewPass(e.target.value)} />
               </label>
             </div>
 
             {fpMsg && (
-              <div className={`alert ${fpMsg.type === "error" ? "alert-error" : "alert-success"}`} style={{ marginTop: 8 }}>
+              <div className={`login-alert ${fpMsg.type === "error" ? "login-alert-error" : "login-alert-success"}`}>
                 {fpMsg.text}
               </div>
             )}
 
-            <div style={{ marginTop: 10, display: "flex", gap: 8, justifyContent: "flex-end" }}>
-              <button onClick={() => setShowForgot(false)} className="btn-secondary">Cancel</button>
-              <button onClick={handleForgotPassword} className="btn-primary" disabled={fpLoading}>
-                {fpLoading ? "Submitting…" : "Submit"}
+            <div className="modal-actions">
+              <button type="button" onClick={() => setShowForgot(false)} className="modal-cancel">Cancel</button>
+              <button type="button" onClick={handleForgotPassword} className="modal-submit" disabled={fpLoading}>
+                {fpLoading ? "Submitting…" : "Reset password"}
               </button>
             </div>
           </div>
