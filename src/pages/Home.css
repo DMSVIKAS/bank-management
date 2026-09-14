@@ -39,18 +39,7 @@ body {
 .home-wrap {
   min-height: 100vh;
   overflow-x: hidden;
-
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(210, 232, 255, 0.8),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #f4f8ff 100%
-    );
+  background: #ffffff;
 }
 
 
