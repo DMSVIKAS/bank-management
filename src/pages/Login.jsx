@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
-import heroImg from "../components/log2.jpeg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,32 +17,65 @@ export default function Login() {
 
   const nav = useNavigate();
 
+  // =========================
+  // LOGIN
+  // =========================
   const handleLogin = async (e) => {
     e.preventDefault();
+
     setMsg(null);
     setLoading(true);
+
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
       const data = await res.json();
 
       if (res.ok && data.status === "success") {
         localStorage.setItem("user", JSON.stringify(data.user));
-        setMsg({ type: "success", text: "Login successful. Redirecting…" });
-        setTimeout(() => nav("/dashboard"), 500);
+
+        setMsg({
+          type: "success",
+          text: "Login successful. Redirecting…",
+        });
+
+        setTimeout(() => {
+          nav("/dashboard");
+        }, 500);
       } else {
-        setMsg({ type: "error", text: data.detail || data.message || "Login failed" });
+        setMsg({
+          type: "error",
+          text:
+            data.detail ||
+            data.message ||
+            "Login failed",
+        });
       }
-    } catch {
-      setMsg({ type: "error", text: "Network error. Try again." });
+    } catch (error) {
+      setMsg({
+        type: "error",
+        text: "Network error. Try again.",
+      });
     } finally {
       setLoading(false);
     }
   };
 
+  // =========================
+  // FORGOT PASSWORD
+  // =========================
   const openForgot = () => {
     setFpEmail(email || "");
     setFpAcc("");
@@ -52,20 +84,33 @@ export default function Login() {
     setShowForgot(true);
   };
 
+  const closeForgot = () => {
+    if (!fpLoading) {
+      setShowForgot(false);
+    }
+  };
+
   const handleForgotPassword = async () => {
     setFpMsg(null);
+
     if (!fpEmail || !fpAcc || !fpNewPass) {
-      setFpMsg({ type: "error", text: "Please fill all fields." });
+      setFpMsg({
+        type: "error",
+        text: "Please fill all fields.",
+      });
       return;
     }
 
     try {
       setFpLoading(true);
+
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/auth/forgot-password`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             email: fpEmail,
             account_number: fpAcc,
@@ -73,6 +118,7 @@ export default function Login() {
           }),
         }
       );
+
       const data = await res.json();
 
       if (res.ok && data.status === "success") {
@@ -80,16 +126,30 @@ export default function Login() {
           type: "success",
           text: "Password reset successful! Please login again.",
         });
+
         setTimeout(() => {
           setShowForgot(false);
           setPassword(fpNewPass);
-          setMsg({ type: "success", text: "Password updated. Please sign in." });
+
+          setMsg({
+            type: "success",
+            text: "Password updated. Please sign in.",
+          });
         }, 600);
       } else {
-        setFpMsg({ type: "error", text: data.detail || data.message || "Reset failed" });
+        setFpMsg({
+          type: "error",
+          text:
+            data.detail ||
+            data.message ||
+            "Reset failed",
+        });
       }
-    } catch {
-      setFpMsg({ type: "error", text: "Network error. Try again." });
+    } catch (error) {
+      setFpMsg({
+        type: "error",
+        text: "Network error. Try again.",
+      });
     } finally {
       setFpLoading(false);
     }
@@ -97,165 +157,390 @@ export default function Login() {
 
   return (
     <div className="login-page">
-      <div className="login-shell">
+
+      {/* =========================
+          MAIN LOGIN CONTAINER
+      ========================== */}
+      <div className="login-wrap">
+
+        {/* =========================
+            LEFT SIDE
+        ========================== */}
         <section className="login-showcase">
+
           <div className="showcase-top">
-            <div className="login-brand">
-              <span className="brand-mark">🏦</span>
-              <span>G-BANK</span>
+
+            <div className="brand">
+              <div className="brand-icon">🏦</div>
+
+              <div>
+                <div className="brand-name">
+                  G-BANK
+                </div>
+
+                <div className="brand-subtitle">
+                  WELCOME TO G-BANK
+                </div>
+              </div>
             </div>
-            <span className="showcase-badge">Secure • Smart • Reliable</span>
+
+            <div className="secure-badge">
+              Secure • Smart • Reliable
+            </div>
+
           </div>
 
           <div className="showcase-content">
-            <div className="showcase-copy">
-              <p className="eyebrow">WELCOME TO G-BANK</p>
-              <h1>
-                Banking for a
-                <span> Brighter Tomorrow.</span>
-              </h1>
-              <p className="showcase-description">
-                Manage your money, make payments, track your savings and stay
-                in control — all from one simple banking platform.
-              </p>
 
-              <div className="showcase-features">
-                <div className="showcase-feature">
-                  <span>↗</span>
-                  <div><strong>Instant transfers</strong><small>Send money in seconds</small></div>
+            <div className="showcase-heading">
+              Banking
+              <br />
+              for a
+              <br />
+
+              <span>
+                Brighter
+                <br />
+                Tomorrow.
+              </span>
+            </div>
+
+            <p className="showcase-description">
+              Manage your money, make payments,
+              track your savings and stay in control
+              — all from one simple banking platform.
+            </p>
+
+            {/* FEATURES */}
+            <div className="showcase-features">
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  ↗
                 </div>
-                <div className="showcase-feature">
-                  <span>▥</span>
-                  <div><strong>Smart insights</strong><small>Track and grow your savings</small></div>
-                </div>
-                <div className="showcase-feature">
-                  <span>◇</span>
-                  <div><strong>Bank-grade security</strong><small>Your data stays protected</small></div>
+
+                <div>
+                  <strong>
+                    Instant transfers
+                  </strong>
+
+                  <span>
+                    Send money in seconds
+                  </span>
                 </div>
               </div>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  ✓
+                </div>
+
+                <div>
+                  <strong>
+                    Secure banking
+                  </strong>
+
+                  <span>
+                    Your money stays protected
+                  </span>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  $
+                </div>
+
+                <div>
+                  <strong>
+                    Smart money management
+                  </strong>
+
+                  <span>
+                    Track your finances easily
+                  </span>
+                </div>
+              </div>
+
             </div>
 
-            <div className="showcase-art">
-              <img src={heroImg} alt="G-BANK banking experience" />
-            </div>
           </div>
 
-          <div className="showcase-stats">
-            <div><strong>10K+</strong><span>Happy Customers</span></div>
-            <div><strong>100%</strong><span>Secure Transactions</span></div>
-            <div><strong>24×7</strong><span>Customer Support</span></div>
-          </div>
         </section>
 
+
+        {/* =========================
+            RIGHT SIDE LOGIN
+        ========================== */}
         <section className="login-panel">
-          <div className="login-panel-inner">
-            <div className="mobile-brand">
-              <span className="brand-mark">🏦</span>
-              <span>G-BANK</span>
-            </div>
+
+          <div className="login-content">
 
             <div className="login-heading">
-              <span className="login-kicker">WELCOME BACK</span>
-              <h2>Sign in to your account</h2>
-              <p>Enter your details to continue securely.</p>
+
+              <div className="login-eyebrow">
+                WELCOME BACK
+              </div>
+
+              <h1>
+                Sign in to your
+                <br />
+                account
+              </h1>
+
+              <p>
+                Enter your details to continue securely.
+              </p>
+
             </div>
 
-            <form onSubmit={handleLogin} className="login-form">
-              <label>
-                Email address
+
+            {/* LOGIN FORM */}
+            <form onSubmit={handleLogin}>
+
+              {/* EMAIL */}
+              <div className="form-group">
+
+                <label htmlFor="email">
+                  Email address
+                </label>
+
                 <input
+                  id="email"
                   type="email"
                   placeholder="you@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
                   required
-                  autoFocus
                 />
-              </label>
 
-              <label>
-                Password
+              </div>
+
+
+              {/* PASSWORD */}
+              <div className="form-group">
+
+                <label htmlFor="password">
+                  Password
+                </label>
+
                 <input
+                  id="password"
                   type="password"
                   placeholder="Enter your password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
                   required
                 />
-              </label>
 
-              <div className="login-options">
-                <label className="remember-option">
-                  <input type="checkbox" />
-                  <span>Remember me</span>
+              </div>
+
+
+              {/* REMEMBER / FORGOT */}
+              <div className="form-options">
+
+                <label className="remember-me">
+
+                  <input
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Remember me
+                  </span>
+
                 </label>
-                <button type="button" className="forgot-button" onClick={openForgot}>
+
+                <button
+                  type="button"
+                  className="forgot-link"
+                  onClick={openForgot}
+                >
                   Forgot password?
                 </button>
+
               </div>
 
-              <button className="login-submit" type="submit" disabled={loading}>
-                <span>{loading ? "Signing in…" : "Sign in"}</span>
-                {!loading && <span className="submit-arrow">→</span>}
+
+              {/* MESSAGE */}
+              {msg && (
+                <div
+                  className={`login-message ${msg.type}`}
+                >
+                  {msg.text}
+                </div>
+              )}
+
+
+              {/* SIGN IN */}
+              <button
+                type="submit"
+                className="signin-button"
+                disabled={loading}
+              >
+                {loading
+                  ? "Signing in..."
+                  : (
+                    <>
+                      Sign in
+                      <span>→</span>
+                    </>
+                  )}
               </button>
+
             </form>
 
-            {msg && (
-              <div className={`login-alert ${msg.type === "error" ? "login-alert-error" : "login-alert-success"}`}>
-                {msg.text}
-              </div>
-            )}
 
-            <div className="login-divider"><span>Secure G-BANK access</span></div>
+            {/* REGISTER */}
+            <div className="register-section">
 
-            <p className="create-account-text">
-              Don't have an account? <Link to="/register">Create account</Link>
-            </p>
+              <span>
+                Don't have an account?
+              </span>
 
-            <p className="login-footer">
-              © {new Date().getFullYear()} Golden Ore Bank · Secure banking for a brighter tomorrow.
-            </p>
-          </div>
-        </section>
-      </div>
+              <Link to="/register">
+                Create account
+              </Link>
 
-      {showForgot && (
-        <div className="modal-overlay" onClick={() => setShowForgot(false)}>
-          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-icon">🔐</div>
-            <h3>Reset your password</h3>
-            <p className="modal-description">Verify your account details and choose a new password.</p>
-
-            <div className="modal-form">
-              <label>
-                Email
-                <input type="email" placeholder="you@example.com" value={fpEmail} onChange={(e) => setFpEmail(e.target.value)} />
-              </label>
-              <label>
-                Account Number
-                <input type="text" placeholder="8-digit account number" value={fpAcc} onChange={(e) => setFpAcc(e.target.value)} />
-              </label>
-              <label>
-                New Password
-                <input type="password" placeholder="Enter new password" value={fpNewPass} onChange={(e) => setFpNewPass(e.target.value)} />
-              </label>
             </div>
 
+          </div>
+
+        </section>
+
+      </div>
+
+
+      {/* =========================
+          FORGOT PASSWORD MODAL
+      ========================== */}
+      {showForgot && (
+        <div
+          className="forgot-overlay"
+          onClick={closeForgot}
+        >
+
+          <div
+            className="forgot-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+
+            <button
+              type="button"
+              className="modal-close"
+              onClick={closeForgot}
+              disabled={fpLoading}
+            >
+              ×
+            </button>
+
+            <div className="modal-icon">
+              🔐
+            </div>
+
+            <h2>
+              Reset your password
+            </h2>
+
+            <p className="modal-description">
+              Enter your account details to create
+              a new password.
+            </p>
+
+
+            {/* EMAIL */}
+            <div className="form-group">
+
+              <label htmlFor="fp-email">
+                Email address
+              </label>
+
+              <input
+                id="fp-email"
+                type="email"
+                placeholder="you@example.com"
+                value={fpEmail}
+                onChange={(e) =>
+                  setFpEmail(e.target.value)
+                }
+              />
+
+            </div>
+
+
+            {/* ACCOUNT NUMBER */}
+            <div className="form-group">
+
+              <label htmlFor="fp-account">
+                Account number
+              </label>
+
+              <input
+                id="fp-account"
+                type="text"
+                placeholder="Enter account number"
+                value={fpAcc}
+                onChange={(e) =>
+                  setFpAcc(e.target.value)
+                }
+              />
+
+            </div>
+
+
+            {/* NEW PASSWORD */}
+            <div className="form-group">
+
+              <label htmlFor="fp-password">
+                New password
+              </label>
+
+              <input
+                id="fp-password"
+                type="password"
+                placeholder="Enter new password"
+                value={fpNewPass}
+                onChange={(e) =>
+                  setFpNewPass(e.target.value)
+                }
+              />
+
+            </div>
+
+
+            {/* FORGOT MESSAGE */}
             {fpMsg && (
-              <div className={`login-alert ${fpMsg.type === "error" ? "login-alert-error" : "login-alert-success"}`}>
+              <div
+                className={`login-message ${fpMsg.type}`}
+              >
                 {fpMsg.text}
               </div>
             )}
 
-            <div className="modal-actions">
-              <button type="button" onClick={() => setShowForgot(false)} className="modal-cancel">Cancel</button>
-              <button type="button" onClick={handleForgotPassword} className="modal-submit" disabled={fpLoading}>
-                {fpLoading ? "Submitting…" : "Reset password"}
-              </button>
-            </div>
+
+            {/* RESET BUTTON */}
+            <button
+              type="button"
+              className="signin-button modal-submit"
+              onClick={handleForgotPassword}
+              disabled={fpLoading}
+            >
+              {fpLoading
+                ? "Resetting..."
+                : "Reset password"}
+            </button>
+
           </div>
+
         </div>
       )}
+
     </div>
   );
 }
